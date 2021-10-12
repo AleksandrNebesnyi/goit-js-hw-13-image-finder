@@ -1,0 +1,25 @@
+{
+  "name": "js-22",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "parcel src/index.html",
+    "build": "parcel build src/*.html --public-url /goit-js-hw-13-image-finder/"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://AleksandrNebesnyi.github.io/goit-js-hw-13-image-finder",
+  "devDependencies": {
+    "@pnotify/core": "^5.2.0",
+    "parcel-bundler": "^1.12.4",
+    "parcel-plugin-handlebars-precompile": "^1.0.2",
+    "parcel-plugin-nuke-dist": "^1.0.1"
+  },
+  "dependencies": {
+    "@babel/core": "^7.15.8",
+    "basiclightbox": "^5.0.4",
+    "lodash.debounce": "^4.0.8"
+  }
+}
