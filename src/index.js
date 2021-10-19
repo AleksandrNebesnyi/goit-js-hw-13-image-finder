@@ -12,50 +12,52 @@
  * http://newsapi.org/v2/everything?q=cat&language=en&pageSize=5&page=1
  */
 
-import articlesTpl from './templates/articles.hbs';
+import photosTpl from './templates/photo.hbs';
 import './css/common.css';
-import NewsApiService from './js/news-service';
+import PixabayApiService from './js/apiService';
 import LoadMoreBtn from './js/components/load-more-btn';
+
+const pixabayApiService = new PixabayApiService();
 
 const refs = {
   searchForm: document.querySelector('.js-search-form'),
   articlesContainer: document.querySelector('.js-articles-container'),
 };
-const loadMoreBtn = new LoadMoreBtn({
-  selector: '[data-action="load-more"]',
-  hidden: true,
-});
-const newsApiService = new NewsApiService();
+// const loadMoreBtn = new LoadMoreBtn({
+//   selector: '[data-action="load-more"]',
+//   hidden: true,
+// });
 
 refs.searchForm.addEventListener('submit', onSearch);
-loadMoreBtn.refs.button.addEventListener('click', fetchArticles);
+// loadMoreBtn.refs.button.addEventListener('click', fetchPhotos);
 
 function onSearch(e) {
   e.preventDefault();
 
-  newsApiService.query = e.currentTarget.elements.query.value;
+  pixabayApiService.query = e.currentTarget.elements.query.value;
+  console.log(pixabayApiService.query);
 
-  if (newsApiService.query === '') {
+  if (pixabayApiService.query === '') {
     return alert('Введи что-то нормальное');
   }
 
-  loadMoreBtn.show();
-  newsApiService.resetPage();
+  // loadMoreBtn.show();
+  pixabayApiService.resetPage();
   clearArticlesContainer();
-  fetchArticles();
+  fetchPhotos();
 }
 
-function fetchArticles() {
-  loadMoreBtn.disable();
-  newsApiService.fetchArticles().then(articles => {
-    appendArticlesMarkup(articles);
-    loadMoreBtn.enable();
+function fetchPhotos() {
+  // loadMoreBtn.disable();
+  pixabayApiService.fetchPhoto().then(photos => {
+    appendArticlesMarkup(photos);
+    // loadMoreBtn.enable();
   });
 }
 
-function appendArticlesMarkup(articles) {
-  refs.articlesContainer.insertAdjacentHTML('beforeend', articlesTpl(articles));
-}
+// function appendArticlesMarkup(photos) {
+//   refs.articlesContainer.insertAdjacentHTML('beforeend', photosTpl(photos));
+// }
 
 function clearArticlesContainer() {
   refs.articlesContainer.innerHTML = '';
