@@ -23,13 +23,13 @@ const refs = {
   searchForm: document.querySelector('.js-search-form'),
   articlesContainer: document.querySelector('.js-articles-container'),
 };
-// const loadMoreBtn = new LoadMoreBtn({
-//   selector: '[data-action="load-more"]',
-//   hidden: true,
-// });
+const loadMoreBtn = new LoadMoreBtn({
+  selector: '[data-action="load-more"]',
+  hidden: true,
+});
 
 refs.searchForm.addEventListener('submit', onSearch);
-// loadMoreBtn.refs.button.addEventListener('click', fetchPhotos);
+loadMoreBtn.refs.button.addEventListener('click', fetchPhotos);
 
 function onSearch(e) {
   e.preventDefault();
@@ -41,23 +41,23 @@ function onSearch(e) {
     return alert('Введи что-то нормальное');
   }
 
-  // loadMoreBtn.show();
+  loadMoreBtn.show();
   pixabayApiService.resetPage();
   clearArticlesContainer();
   fetchPhotos();
 }
 
 function fetchPhotos() {
-  // loadMoreBtn.disable();
+  loadMoreBtn.disable();
   pixabayApiService.fetchPhoto().then(photos => {
     appendArticlesMarkup(photos);
-    // loadMoreBtn.enable();
+    loadMoreBtn.enable();
   });
 }
 
-// function appendArticlesMarkup(photos) {
-//   refs.articlesContainer.insertAdjacentHTML('beforeend', photosTpl(photos));
-// }
+function appendArticlesMarkup(photos) {
+  refs.articlesContainer.insertAdjacentHTML('beforeend', photosTpl(photos));
+}
 
 function clearArticlesContainer() {
   refs.articlesContainer.innerHTML = '';
