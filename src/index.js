@@ -12,12 +12,13 @@
  * http://newsapi.org/v2/everything?q=cat&language=en&pageSize=5&page=1
  */
 
-import photosTpl from './templates/photo.hbs';
+// import photosTpl from './templates/photo.hbs';
 import './css/common.css';
 import PixabayApiService from './js/apiService';
 import LoadMoreBtn from './js/components/load-more-btn';
 
 const pixabayApiService = new PixabayApiService();
+console.log(pixabayApiService);
 
 const refs = {
   searchForm: document.querySelector('.js-search-form'),
@@ -52,6 +53,11 @@ function fetchPhotos() {
   pixabayApiService.fetchPhoto().then(photos => {
     appendArticlesMarkup(photos);
     loadMoreBtn.enable();
+  // loadMoreBtn.disable();
+  pixabayApiService.fetchPhoto().then(data => {
+    console.log(data);
+    // appendArticlesMarkup(photos);
+    // loadMoreBtn.enable();
   });
 }
 
@@ -59,6 +65,6 @@ function appendArticlesMarkup(photos) {
   refs.articlesContainer.insertAdjacentHTML('beforeend', photosTpl(photos));
 }
 
-function clearArticlesContainer() {
-  refs.articlesContainer.innerHTML = '';
-}
+// function clearArticlesContainer() {
+//   refs.articlesContainer.innerHTML = '';
+// }
