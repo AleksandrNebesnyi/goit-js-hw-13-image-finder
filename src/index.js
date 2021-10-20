@@ -1,18 +1,13 @@
-/*
- * - Пагинация
- *   - страница и кол-во на странице
- * - Загружаем статьи при сабмите формы
- * - Загружаем статьи при нажатии на кнопку «Загрузить еще»
- * - Обновляем страницу в параметрах запроса
- * - Рисуем статьи
- * - Сброс значения при поиске по новому критерию
- *
- * https://newsapi.org/
- * 4330ebfabc654a6992c2aa792f3173a3
- * http://newsapi.org/v2/everything?q=cat&language=en&pageSize=5&page=1
- */
+//  * - Пагинация
+//  *   - страница и кол-во на странице
+//  * - Загружаем статьи при сабмите формы
+//  * - Загружаем статьи при нажатии на кнопку «Загрузить еще»
+//  * - Обновляем страницу в параметрах запроса
+//  * - Рисуем статьи
+//  * - Сброс значения при поиске по новому критерию
 
-// import photosTpl from './templates/photo.hbs';
+// import { pictureLoader } from './js/apiService.js';
+import photosTpl from './templates/photo.hbs';
 import './css/common.css';
 import PixabayApiService from './js/apiService';
 import LoadMoreBtn from './js/components/load-more-btn';
@@ -31,6 +26,7 @@ const loadMoreBtn = new LoadMoreBtn({
 
 refs.searchForm.addEventListener('submit', onSearch);
 loadMoreBtn.refs.button.addEventListener('click', fetchPhotos);
+const element = loadMoreBtn;
 
 function onSearch(e) {
   e.preventDefault();
@@ -44,27 +40,27 @@ function onSearch(e) {
 
   loadMoreBtn.show();
   pixabayApiService.resetPage();
-  clearArticlesContainer();
+  clearPhotosContainer();
   fetchPhotos();
 }
 
 function fetchPhotos() {
   loadMoreBtn.disable();
   pixabayApiService.fetchPhoto().then(photos => {
-    appendArticlesMarkup(photos);
+    console.log(photos);
+    appendPhotosMarkup(photos);
     loadMoreBtn.enable();
-  // loadMoreBtn.disable();
-  pixabayApiService.fetchPhoto().then(data => {
-    console.log(data);
-    // appendArticlesMarkup(photos);
-    // loadMoreBtn.enable();
+    refs.articlesContainer.scrollIntoView({
+      behavior: 'smooth',
+      block: 'end',
+    });
   });
 }
 
-function appendArticlesMarkup(photos) {
+function appendPhotosMarkup(photos) {
   refs.articlesContainer.insertAdjacentHTML('beforeend', photosTpl(photos));
 }
 
-// function clearArticlesContainer() {
-//   refs.articlesContainer.innerHTML = '';
-// }
+function clearPhotosContainer() {
+  refs.articlesContainer.innerHTML = '';
+}

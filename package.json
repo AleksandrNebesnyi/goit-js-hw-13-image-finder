@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.15.8",
+    "@pnotify/mobile": "^5.2.0",
     "basiclightbox": "^5.0.4",
     "lodash.debounce": "^4.0.8"
   }
