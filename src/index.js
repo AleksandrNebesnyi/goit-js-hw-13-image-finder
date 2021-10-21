@@ -9,6 +9,8 @@ import './scss/main.scss';
 import PixabayApiService from './js/apiService';
 import LoadMoreBtn from './js/components/load-more-btn';
 
+// Импорты pnotify
+
 import {
   info,
   success,
@@ -25,13 +27,16 @@ import '@pnotify/mobile/dist/PNotifyMobile.css';
 defaults.delay = 1000;
 defaultModules.set(PNotifyMobile, {});
 
+// Экземпляр класса запроса на  Pixabay
+
 const pixabayApiService = new PixabayApiService();
-console.log(pixabayApiService);
+// console.log(pixabayApiService);
 
 const refs = {
   searchForm: document.querySelector('.js-search-form'),
   articlesContainer: document.querySelector('.js-articles-container'),
 };
+// Экземпляр класса кнопки загрузить еще
 const loadMoreBtn = new LoadMoreBtn({
   selector: '[data-action="load-more"]',
   hidden: true,
@@ -108,7 +113,28 @@ function fetchPhotos() {
         block: 'end',
       });
     })
-    .catch(error => console.log(error));
+    .catch
+    // error({
+    //   title: 'Ошибка при загрузке картинок!',
+    //   stack: new Stack({
+    //     dir1: 'down',
+    //     dir2: 'right', // Position from the top left corner.
+    //     firstpos1: 90,
+    //     firstpos2: 200, // 90px from the top, 90px from the left.
+    //   }),
+    //   modules: new Map([
+    //     [
+    //       ...defaultModules,
+    //       [
+    //         PNotifyMobile,
+    //         {
+    //           swipeDismiss: false,
+    //         },
+    //       ],
+    //     ],
+    //   ]),
+    // }),
+    ();
 }
 
 function appendPhotosMarkup(photos) {
