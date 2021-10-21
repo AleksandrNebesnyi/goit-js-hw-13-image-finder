@@ -8,7 +8,6 @@ import photosTpl from './templates/photo.hbs';
 import './scss/main.scss';
 import PixabayApiService from './js/apiService';
 import LoadMoreBtn from './js/components/load-more-btn';
-import './js/observer';
 
 // Импорты pnotify
 
@@ -27,7 +26,7 @@ import '@pnotify/mobile/dist/PNotifyMobile.css';
 
 defaults.delay = 1000;
 defaultModules.set(PNotifyMobile, {});
-import './js/observer';
+
 // Экземпляр класса запроса на  Pixabay
 
 const pixabayApiService = new PixabayApiService();
@@ -52,7 +51,7 @@ function onSearch(e) {
 
   pixabayApiService.query = e.currentTarget.elements.query.value;
   // console.log(pixabayApiService.query);
-  console.log(pixabayApiService.fetchPhoto());
+
   if (pixabayApiService.query.trim() === '') {
     return info({
       title: 'Введите валидный поисковый запрос.',
@@ -60,7 +59,7 @@ function onSearch(e) {
         dir1: 'down',
         dir2: 'right', // Position from the top left corner.
         firstpos1: 90,
-        firstpos2: 200, // 90px from the top, 200px from the left.
+        firstpos2: 200, // 90px from the top, 90px from the left.
       }),
       modules: new Map([
         [
@@ -87,29 +86,7 @@ function fetchPhotos() {
   pixabayApiService
     .fetchPhoto()
     .then(photos => {
-      if (photos.length === 0) {
-        return info({
-          title: 'Введите валидный поисковый запрос.',
-          stack: new Stack({
-            dir1: 'down',
-            dir2: 'right', // Position from the top left corner.
-            firstpos1: 90,
-            firstpos2: 200, // 90px from the top, 200px from the left.
-          }),
-          modules: new Map([
-            [
-              ...defaultModules,
-              [
-                PNotifyMobile,
-                {
-                  swipeDismiss: false,
-                },
-              ],
-            ],
-          ]),
-        });
-      }
-      console.log(photos.length);
+      console.log(photos);
       appendPhotosMarkup(photos);
       success({
         title: `Загружено`,
@@ -117,7 +94,7 @@ function fetchPhotos() {
           dir1: 'down',
           dir2: 'right', // Position from the top left corner.
           firstpos1: 90,
-          firstpos2: 200, // 90px from the top, 200px from the left.
+          firstpos2: 200, // 90px from the top, 90px from the left.
         }),
         modules: new Map([
           [
@@ -137,9 +114,8 @@ function fetchPhotos() {
         block: 'end',
       });
     })
-    .catch(errorMessage => console.log(errorMessage));
+    .catch(error => console.log(error));
 }
-
 function appendPhotosMarkup(photos) {
   refs.articlesContainer.insertAdjacentHTML('beforeend', photosTpl(photos));
 }
@@ -147,3 +123,20 @@ function appendPhotosMarkup(photos) {
 function clearPhotosContainer() {
   refs.articlesContainer.innerHTML = '';
 }
+
+const onEntry = entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && pixabayApiService.query !== '') {
+      console.log('Пора грузить еще статьи' + Date.now());
+      pixabayApiService.fetchPhoto().then(photos => {
+        appendPhotosMarkup(photos);
+        pixabayApiService.incrementPage();
+      });
+    }
+  });
+};
+
+const observer = new IntersectionObserver(onEntry, {
+  rootMargin: '150px',
+});
+observer.observe(refs.sentinel);
