@@ -9,7 +9,14 @@ import './scss/main.scss';
 import PixabayApiService from './js/apiService';
 import LoadMoreBtn from './js/components/load-more-btn';
 
-import { info, success, error, defaultModules, defaults } from '@pnotify/core';
+import {
+  info,
+  success,
+  error,
+  defaultModules,
+  defaults,
+  Stack,
+} from '@pnotify/core';
 import '@pnotify/core/dist/PNotify.css';
 import '@pnotify/core/dist/BrightTheme.css';
 import * as PNotifyMobile from '@pnotify/mobile';
@@ -42,6 +49,12 @@ function onSearch(e) {
   if (pixabayApiService.query.trim() === '') {
     return info({
       title: 'Введите валидный поисковый запрос.',
+      stack: new Stack({
+        dir1: 'down',
+        dir2: 'right', // Position from the top left corner.
+        firstpos1: 90,
+        firstpos2: 200, // 90px from the top, 90px from the left.
+      }),
       modules: new Map([
         [
           ...defaultModules,
@@ -71,6 +84,12 @@ function fetchPhotos() {
       appendPhotosMarkup(photos);
       success({
         title: `Загружено`,
+        stack: new Stack({
+          dir1: 'down',
+          dir2: 'right', // Position from the top left corner.
+          firstpos1: 90,
+          firstpos2: 200, // 90px from the top, 90px from the left.
+        }),
         modules: new Map([
           [
             ...defaultModules,

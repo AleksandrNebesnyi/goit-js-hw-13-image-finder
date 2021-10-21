@@ -1,4 +1,3 @@
-
 const API_KEY = '23744407-6e41977eb223c860dbad454a0';
 const BASE_URL =
   'https://pixabay.com/api/?image_type=photo&orientation=horizontal&';
@@ -16,7 +15,6 @@ export default class PixabayApiService {
     return fetch(url)
       .then(response => response.json())
       .then(photo => {
-        // console.log(photo);
         this.incrementPage();
         return photo.hits;
       });
