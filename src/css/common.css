@@ -1,4 +1,4 @@
-*,
+/* *,
 *::before,
 *::after {
   box-sizing: border-box;
@@ -39,7 +39,7 @@ img {
 }
 
 /* gallery List */
-.gallery {
+/* .gallery {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   grid-gap: 20px;
@@ -77,4 +77,4 @@ img {
 }
 .material-icons {
   margin-right: 5px;
-}
+} */
