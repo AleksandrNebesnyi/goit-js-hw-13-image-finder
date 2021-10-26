@@ -9,15 +9,30 @@ export default class PixabayApiService {
     this.perPage = 12;
   }
 
-  fetchPhoto() {
-    console.log(this);
-    const url = `${BASE_URL}q=${this.searchQuery}&page=${this.page}&per_page=${this.perPage}&key=${API_KEY}`;
-    return fetch(url)
-      .then(response => response.json())
-      .then(photo => {
-        this.incrementPage();
-        return photo.hits;
-      });
+  // fetchPhoto() {
+  //   console.log(this);
+  //   const url = `${BASE_URL}q=${this.searchQuery}&page=${this.page}&per_page=${this.perPage}&key=${API_KEY}`;
+  //   return fetch(url)
+  //     .then(response => response.json())
+  //     .then(photo => {
+  //       this.incrementPage();
+  //       return photo.hits;
+  //     });
+  // }
+
+  async fetchPhoto() {
+    try {
+      console.log(this);
+      const response = await fetch(
+        `${BASE_URL}q=${this.searchQuery}&page=${this.page}&per_page=${this.perPage}&key=${API_KEY}`,
+      );
+      const photo = await response.json();
+
+      this.incrementPage();
+      return photo.hits;
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 
   incrementPage() {
