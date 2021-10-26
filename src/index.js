@@ -163,13 +163,16 @@ function clearPhotosContainer() {
 }
 
 const onEntry = entries => {
-  entries.forEach(entry => {
+  entries.forEach(async entry => {
     if (entry.isIntersecting && pixabayApiService.query !== '') {
       // console.log('Пора грузить еще' + Date.now());
-      pixabayApiService.fetchPhoto().then(photos => {
-        appendPhotosMarkup(photos);
-        pixabayApiService.incrementPage();
-      });
+      let photos = await pixabayApiService.fetchPhoto();
+      appendPhotosMarkup(photos);
+
+      // pixabayApiService.fetchPhoto().then(photos => {
+      //   appendPhotosMarkup(photos);
+      //   pixabayApiService.incrementPage();
+      // });
     }
   });
 };
