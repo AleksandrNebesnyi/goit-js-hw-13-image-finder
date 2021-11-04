@@ -22,7 +22,7 @@ export default class PixabayApiService {
 
   async fetchPhoto() {
     try {
-      console.log(this);
+      // console.log(this);
       const response = await fetch(
         `${BASE_URL}q=${this.searchQuery}&page=${this.page}&per_page=${this.perPage}&key=${API_KEY}`,
       );

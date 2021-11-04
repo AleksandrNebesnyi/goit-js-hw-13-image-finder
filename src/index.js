@@ -30,7 +30,7 @@ defaultModules.set(PNotifyMobile, {});
 // Экземпляр класса запроса на  Pixabay
 
 const pixabayApiService = new PixabayApiService();
-console.log(pixabayApiService.fetchPhoto());
+// console.log(pixabayApiService.fetchPhoto());
 
 // Экземпляр класса кнопки загрузить еще
 const loadMoreBtn = new LoadMoreBtn({
@@ -50,6 +50,7 @@ function onSearch(e) {
   e.preventDefault();
 
   pixabayApiService.query = e.currentTarget.elements.query.value;
+  
 
   if (pixabayApiService.query.trim() === '') {
     return info({
@@ -125,10 +126,10 @@ function fetchPhotos() {
           ],
         ]),
       });
-      refs.articlesContainer.scrollIntoView({
-        behavior: 'smooth',
-        block: 'end',
-      });
+      // refs.articlesContainer.scrollIntoView({
+      //   behavior: 'smooth',
+      //   block: 'end',
+      // });
       error =>
         info({
           title: 'Введите валидный поисковый запрос.',
@@ -165,7 +166,7 @@ function clearPhotosContainer() {
 const onEntry = entries => {
   entries.forEach(async entry => {
     if (entry.isIntersecting && pixabayApiService.query !== '') {
-      // console.log('Пора грузить еще' + Date.now());
+      console.log('Пора грузить еще' + Date.now());
       let photos = await pixabayApiService.fetchPhoto();
       appendPhotosMarkup(photos);
 
@@ -178,6 +179,7 @@ const onEntry = entries => {
 };
 
 const observer = new IntersectionObserver(onEntry, {
-  rootMargin: '150px',
+  threshold: 0.5,
+  // rootMargin: '150px',
 });
 observer.observe(refs.sentinel);
