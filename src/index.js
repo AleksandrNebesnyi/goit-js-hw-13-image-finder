@@ -175,21 +175,16 @@ function clearSerchForm (){
 const onEntry = entries => {
   entries.forEach(async entry => {
     if (entry.isIntersecting && pixabayApiService.query !== '') {
-      // console.log('Пора грузить еще' + Date.now());
+      
       let photos = await pixabayApiService.fetchPhoto();
       appendPhotosMarkup(photos);
-
-      // pixabayApiService.fetchPhoto().then(photos => {
-      //   appendPhotosMarkup(photos);
-      //   pixabayApiService.incrementPage();
-      // });
-    }
+       }
   });
 };
 
 const observer = new IntersectionObserver(onEntry, {
-  // threshold: 0.5,
-  rootMargin: '50px',
+  threshold: 0.5,
+  
 });
 observer.observe(refs.sentinel);
 
